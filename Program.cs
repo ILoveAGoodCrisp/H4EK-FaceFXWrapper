@@ -3,8 +3,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
-namespace H3EK_FaceFX_Wrapper
+namespace H4EK_FaceFX_Wrapper
 {
     class Program
     {
@@ -47,17 +48,16 @@ namespace H3EK_FaceFX_Wrapper
                 }
 
                 string commands = args[1];
-
-                // split FaceFX command args
                 int pFrom = commands.IndexOf("loadActor ") + "loadActor ".Length;
                 int pTo = commands.IndexOf(";");
                 string loadactorArgs = commands.Substring(pFrom, pTo - pFrom);
                 loadactorArgs = loadactorArgs.Replace("-file ", "-file \"");
                 loadactorArgs += "\"";
 
-                string commandsSubstring = commands.Substring(pFrom + pTo - pFrom + 1);
+                string commandsSubstring = commands.Substring(pFrom + pTo - pFrom + 40);
                 pFrom = commandsSubstring.IndexOf("analyze ") + "analyze ".Length;
                 pTo = commandsSubstring.IndexOf(";");
+
                 string analyzeArgs = commandsSubstring.Substring(pFrom, pTo - pFrom);
                 analyzeArgs = analyzeArgs.Replace("-audio ", "-audio \"");
                 analyzeArgs += "\"";
@@ -67,7 +67,8 @@ namespace H3EK_FaceFX_Wrapper
                 string exportanimArgs = commandsSubstring.Substring(pFrom);
                 exportanimArgs = exportanimArgs.Replace("anim", "animname");
                 exportanimArgs = exportanimArgs.Replace("group", "animgroup");
-                exportanimArgs = exportanimArgs.Replace(".fxx", ".ltf");
+                exportanimArgs = exportanimArgs.Replace(".tmp", ".ltf");
+                exportanimArgs = exportanimArgs.Replace("H4EK\\.", "H4EK");
                 exportanimArgs = exportanimArgs.Replace("-file ", "-file \"");
                 exportanimArgs += "\"";
 
@@ -106,9 +107,22 @@ namespace H3EK_FaceFX_Wrapper
                 {
                     // load and convert the LTF file
                     FXX_File FXX = new FXX_File();
-                    if (FXX.loadLTF(ltfPath)) // write FXX if the LTF was loaded successfully
-                        FXX.WriteTo(ltfPath.Replace(".ltf", ".fxx"));
-                    File.Delete(ltfPath);
+                    string[] temp = analyzeArgs.Split(' ');
+                    string fxxPath = temp[7].Replace(".wav", ".fxx");
+                    fxxPath = fxxPath.Replace("\"", "");
+                    // loadLTF will assert if no sleep exists
+                    Thread.Sleep(5);
+                    try
+                    {
+                        if (FXX.loadLTF(ltfPath)) // write FXX if the LTF was loaded successfully
+                        {
+                            FXX.WriteTo(fxxPath);
+                        }
+
+                        Thread.Sleep(5);
+                        File.Delete(ltfPath);
+                    }
+                    catch (Exception e) { }
                 }
             }
             // convert an LTF file directly to FXX
