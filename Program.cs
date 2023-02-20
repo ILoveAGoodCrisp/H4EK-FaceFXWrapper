@@ -122,7 +122,13 @@ namespace H4EK_FaceFX_Wrapper
                         Thread.Sleep(5);
                         File.Delete(ltfPath);
                     }
-                    catch (Exception e) { }
+                    catch (Exception e) 
+                    {
+                        using (StreamWriter writer = new StreamWriter("errorlog.txt"))
+                        {
+                            writer.Write(e.ToString());
+                        }
+                    }
                 }
             }
             // convert an LTF file directly to FXX
