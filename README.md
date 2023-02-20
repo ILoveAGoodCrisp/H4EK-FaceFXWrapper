@@ -5,9 +5,9 @@ A middleman tool which allows you to use the Dragon Age Origins toolset build of
 Please mind the gnarly text parsing code.
 # Usage
 1) Download the [Dragon Age Origins toolset](http://lvlt.bioware.cdn.ea.com/bioware/u/f/eagames/bioware/dragonage/toolset/DragonAgeToolset1.01Setup.exe)
-2) Copy the contents of DragonAgeToolset\FaceFX to H3EK\bin\FaceFX
+2) Copy the contents of DragonAgeToolset\FaceFX to H4EK\bin\FaceFX or H2AMPEK\bin\FaceFX
 3) Rename FxStudio.exe to FxStudioOriginal.exe
-4) Copy the H4EK-FaceFXWrapper files into your H4EK\bin\FaceFX folder (make sure this includes the bungie_facefx_actors folder!)
+4) Copy the H4EK-FaceFXWrapper files into your H4EK\bin\FaceFX or H2AMPEK\bin\FaceFX folder (make sure this includes the bungie_facefx_actors folder!)
 5) (Optional) Add a .txt file placed next to your sound file with the same name in the data folder, containing a read out of your voice lines for better lipsync generation
 6) Import your sound using tool.exe with the import-lip-sync-data command (tool import-lip-sync-data path-to-dir no no). You must have a pre existing sound tag created for the function to work correctly e.g. for importing .wav files from data\sounds\dialog\test you must have a sound tag at tags\sounds\dialog\test.sound. data\sounds\dialog\test should be a folder containing all permutations of that sounds as .wav files. Once you have generated the fxx files using import-lip-sync-data, you'll need to run the same command again to generate the lip sync data in the sound tag.
 
